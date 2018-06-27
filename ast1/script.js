@@ -1,31 +1,38 @@
 
-function printUp(){
-for (var i = 0; i<6;i++){
-temp ="";
-    for (var j = 0;j<=i;j++){
-    temp+='*';
-    }
-    console.log(temp);
-    
-}
 
-}
+var increment = true;
+var temp ="";
+var maxStar = 5;
+var minStar = 1;
+var count = 0;
 
-function printDown(){
- 
-    for (var i = 6; i>0;i--){
-        temp ="";
-            for (var j = 0;j<=i;j++){
-            temp+='*';
-            }
-            console.log(temp);
-            
-        }
-
-}
-
+var temp ="";
 setInterval(function(){
-printUp();
-printDown();
-},1000);
+
+if(increment){
+    temp+='*';
+  
+    count++;
+    if(count ===maxStar){
+        increment =!increment;
+        
+    }
+   
+}
+else{
+    temp = temp.slice(0,-1);
+    count--;
+   
+    if(count ===minStar){
+        increment =!increment;
+        
+    }
+  
+}
+console.log(temp);
+
+},100);
+
+
+
 
