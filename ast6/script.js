@@ -154,7 +154,7 @@ function plot(){
 
 
 
-      
+
 
         checkBoundaryCollision(point);
         checkPoint(point);
@@ -167,9 +167,14 @@ function plot(){
 
 pointsCollection.forEach(function(point)
 {
+  var index = pointsCollection.indexOf(point);
+
 point.$elem.onclick = function () {
 
+  pointsCollection.splice(index,1);
+
 this.remove();
+
 }
 
 }
