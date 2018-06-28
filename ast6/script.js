@@ -5,6 +5,9 @@ graph.style.position = "relative";
 graph.style.background ="black"
 
 
+var direction = [-1,1];
+
+
 
 // generates random numbers
 function randomFunction (startValue , stopValue){
@@ -20,10 +23,10 @@ function generatePoints(){
     for(var i = 0;i< 10;i++){
 
     var point = document.createElement("div");
-    point .style.background="blue";
+    point .style.background="red";
     point.style.height ="10px"
     point.style.width = "10px"
-    // point.style.borderRadius = "5px";
+    point.style.borderRadius = "5px";
     point.style.position = "absolute";
     graph.appendChild(point);
 
@@ -90,41 +93,46 @@ point.dx = point.dx* -1;
 
 
 function checkPoint(point){
-    if (point.x>480){
-        point.x = 480;
+    if (point.xleft>490){
+        point.xleft = 490;
     }
 
 
-    if (point.y>480){
-        point.y = 480;
+    if (point.ytop>490){
+        point.ytop = 490;
     }
 
 
-    if (point.x<0){
-        point.x = 0;
+    if (point.xleft<0){
+        point.xleft = 0;
     }
 
 
-    if (point.y<0){
-        point.y = 0;
+    if (point.ytop<0){
+        point.ytop = 0;
     }
 }
 
+
 function checkBallCollision(pointsCollection){
+  for (var i = 0; i < pointsCollection.length-1;i++){
+      
 
-  for (var i = 0; i < pointsCollection.length;i++){
-
-      var point1 = pointsCollection[i];
-      // console.log(point1);
-    for (var j = 0; j<pointsCollection.length; j++){
+    var point1 = pointsCollection[i];
+   
+    for (var j = i+1; j<pointsCollection.length; j++){
       var point2 = pointsCollection[j];
 
+     
 
-      if(point1!=point2&& (Math.abs((point1.x-point2.x))<=10&& Math.abs( (point1.y-point2.y))<=10)){
-            //just setting random motion
+ 
+
+      if (Math.abs(point1.xleft - point2.xleft) < 10 && Math.abs(point1.ytop - point2.ytop) < 10){
+    
+            
                   point1.dx = point1.dx*-1;
 
-                  point2.dx = point2.dx*-1;
+                 point2.dx = point2.dx*-1;
 
                     point1.dy = point1.dy*-1;
 
@@ -142,27 +150,24 @@ function plot(){
 
 
 
-    var  speed = 5;
+    var  speed = 2;
     setInterval(function(){
 
 
         for (var i =0;i<pointsCollection.length;i++){
 
-                var point = pointsCollection [i];
+     var point = pointsCollection [i];
         point.xleft = point.xleft +point.dx * speed;
         point.ytop = point.ytop + point.dy * speed;
 
-
-
-
-
         checkBoundaryCollision(point);
         checkPoint(point);
-        checkBallCollision(pointsCollection);
+        
         updatePoint(point);
+        checkBallCollision(pointsCollection);
 
     }
-  },100);
+  },50);
 
 
 pointsCollection.forEach(function(point)
