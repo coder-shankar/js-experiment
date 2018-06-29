@@ -1,191 +1,227 @@
-var graph = document.getElementById("wrapper");
-graph.style.height = "500px";
-graph.style.width = "500px";
-graph.style.position = "relative";
-graph.style.background ="black"
+
+$body = document.getElementsByTagName('body')[0];
+direction = [-1,1];
 
 
-var direction = [-1,1];
+function Container(props){
+    var self = this;
+  self.$elem = document.createElement('div');
+  self.$parent = props.$parent;
+  self.height = props.height;
+  self.width  = props.width;
+  self.backgroundColor = props.backgroundColor;
+  self.$elem.style.position = "relative";
+  self.boxCollection = []
 
 
-
-// generates random numbers
-function randomFunction (startValue , stopValue){
-
-    return Math.floor(Math.random()*(stopValue - startValue) + startValue);
-}
+  
+ 
 
 
-// function to generate ants
-function generatePoints(){
-    var pointsCollection = [];
+  self.plot = function(){
 
-    for(var i = 0;i< 10;i++){
-
-    var point = document.createElement("div");
-    point .style.background="red";
-    point.style.height ="10px"
-    point.style.width = "10px"
-    point.style.borderRadius = "5px";
-    point.style.position = "absolute";
-    graph.appendChild(point);
-
-
-
-
-        var x = randomFunction(0,450);
-        var y = randomFunction(0,450);
-
-
-        var point = {dx:1,dy:1,xleft:x,ytop:y,$elem:point};
-        pointsCollection.push(point);
-
-    }
-    return pointsCollection;
-}
-
-
-// render point
-function updatePoint(point){
-
-
-    point.$elem.style.top = point.ytop+"px";
-    point.$elem.style.left = point.xleft+"px";
-
-}
-
-
-function checkBoundaryCollision(point){
-
-    containerTop = 0;
-    containerLeft = 0;
-
-
-if(point.ytop <= containerTop){
-point.dy = point.dy*-1;
-}
-
-
-if(point.xleft<= containerLeft){
-
-
-point.dx = point.dx*-1;
-
-}
-
-if(point.xleft+10>=500){
-
-
-point.dx = point.dx* -1;
-
-}
-
-if (point.ytop+10>=500){
-
-point.dy = point.dy*-1;
-point.dx = point.dx* -1;
-
-}
-
-
-
-}
-
-
-function checkPoint(point){
-    if (point.xleft>490){
-        point.xleft = 490;
-    }
-
-
-    if (point.ytop>490){
-        point.ytop = 490;
-    }
-
-
-    if (point.xleft<0){
-        point.xleft = 0;
-    }
-
-
-    if (point.ytop<0){
-        point.ytop = 0;
-    }
-}
-
-
-function checkBallCollision(pointsCollection){
-  for (var i = 0; i < pointsCollection.length-1;i++){
-      
-
-    var point1 = pointsCollection[i];
+    self.$elem.className = "wrapper";
+    self.$elem.style.height = self.height + "px";
+    self.$elem.style.width = self.width + "px";
+    self.$elem.style.backgroundColor = self.backgroundColor;
+    self.$elem.style.border ="5px solid grey";
+    self.$elem.position ="relative";
+    self.$parent.appendChild(self.$elem);
    
-    for (var j = i+1; j<pointsCollection.length; j++){
-      var point2 = pointsCollection[j];
+    
+    
+  }
 
+  self.addBox = function(box){
+     self.boxCollection.push(box);
+  }
+
+  self.checkBallCollision  = function(){
+    for (var i = 0; i < self.boxCollection.length-1;i++){
+        var point1 = self.boxCollection[i];
+       
+        for (var j = i+1; j<self.boxCollection.length; j++){
+          var point2 = self.boxCollection[j];
+    
+       
      
+            
+          if (Math.abs(point1.x- point2.x) < 20 && Math.abs(point1.y - point2.y) < 20){
+  
+
+                      point1.dx = point1.dx*direction[Math.floor(Math.random()*2)];
+    
+                     point2.dx = point2.dx*direction[Math.floor(Math.random()*2)];
+    
+                        point1.dy = point1.dy*direction[Math.floor(Math.random()*2)];
+    
+                        point2.dy = point2.dy*direction[Math.floor(Math.random()*2)];
+          }
+        }
+      }
+
+  };
+
+
+  
+self.init = function(noOfBall){
+
+    self.plot();
+     for(var i =0;i<noOfBall;i++){
+    
+    var props1 = {x:Math.floor(Math.random()*480),y:Math.floor(Math.random()*480),dx:direction[Math.floor(Math.random()*2)],dy:direction[Math.floor(Math.random()*2)],speed:1,height:20,width:20,parent:board.$elem};
+    var ball = new Box(props1);
+    ball.plot();
+    self.addBox(ball);
+    
+    
+    }
+    
+
+
+    
+        setInterval(function(){
+        self.boxCollection.forEach(ball => {
+    
+          ball.increment();
+          ball.checkPosition();
+         ball.checkWallCollision();
+         ball.update();
+         board.checkBallCollision();;
+    
+        });
+     },10);   
+    
+    
+ 
+    
+     
+  
+
+}
+
+
+
+function Box(props){
+    var self = this;
+    self.x = props.x;
+    self.y = props.y;
+    self.dx = props.dx;
+    self.dy = props.dy;
+    self.speed = props.speed||3;
+    self.height = props.height;
+    self.width = props.width;
+    self.$elem = document.createElement("div");
+
+    self.parent = props.parent;
+    self.$elem.onclick = function(){
+        this.remove();
+
+    };
+   
+    self.update = function(){
+        self.$elem.style.top  = self.y +"px";
+        self.$elem.style.left = self.x + "px";
+    }
+
+    self.increment = function(){
+      
+        self.x +=self.dx *self.speed;
+        self.y +=self.dy *self.speed;
+        
+    }
+
+    this.plot  = function(){
+        self.$elem.className = "box";
+        self.$elem.style.height = self.height + "px";
+        self.$elem.style.width = self.width + "px";
+        self.$elem.style.backgroundColor = self.backgroundColor||"red";
+        self.$elem.style.position ="absolute";
+        self.parent.appendChild(self.$elem);
+        
+        self.update();
+       
+        
+    }
+
+
+    self.checkPosition = function (){
+
+        if (self.x>480){
+            self.x = 480;
+        }
+    
+    
+        if (self.y>480){
+            self.y = 480;
+        }
+    
+    
+        if (self.x<0){
+            self.x = 0;
+        }
+    
+    
+        if (self.ytop<0){
+            self.y = 0;
+        }
+    }
+    
+
+    self.checkWallCollision = function(){
+
+        containerTop = 0;
+        containerLeft = 0;
+    
+    
+    if(self.y <= containerTop){
+    self.dy = self.dy*-1;
+    }
+    
+    
+    if(self.x<= containerLeft){
+    
+    
+    self.dx = self.dx*-1;
+    
+    }
+    
+    if(self.x+20>=500){
+    
+    
+    self.dx = self.dx* -1;
+    
+    }
+    
+    if (self.y+20>=500){
+    
+    self.dy = self.dy*-1;
+   
+    
+    }
+    
+    
+
+
+
+    }
+ 
+
+}
+}
+
+
+
+
+var props = {$parent:$body,height:500,width:500,backgroundColor:"black",};
+
+var board = new Container (props);
+board.init(noOfBall=10);
+
 
  
 
-      if (Math.abs(point1.xleft - point2.xleft) < 10 && Math.abs(point1.ytop - point2.ytop) < 10){
-    
-            
-                  point1.dx = point1.dx*-1;
+var props = {$parent:$body,height:500,width:500,backgroundColor:"black",};
 
-                 point2.dx = point2.dx*-1;
-
-                    point1.dy = point1.dy*-1;
-
-                    point2.dy = point2.dy*-1;
-      }
-    }
-  }
-}
-
-
-function plot(){
-
-    var pointsCollection = generatePoints();
-
-
-
-
-    var  speed = 2;
-    setInterval(function(){
-
-
-        for (var i =0;i<pointsCollection.length;i++){
-
-     var point = pointsCollection [i];
-        point.xleft = point.xleft +point.dx * speed;
-        point.ytop = point.ytop + point.dy * speed;
-
-        checkBoundaryCollision(point);
-        checkPoint(point);
-        
-        updatePoint(point);
-        checkBallCollision(pointsCollection);
-
-    }
-  },50);
-
-
-pointsCollection.forEach(function(point)
-{
-  var index = pointsCollection.indexOf(point);
-
-point.$elem.onclick = function () {
-
-  pointsCollection.splice(index,1);
-
-this.remove();
-
-}
-
-}
-
-);
-
-
-}
-plot();
+var board = new Container (props);
+board.init(noOfBall=10);
