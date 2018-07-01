@@ -6,43 +6,21 @@ var counter = 0;
 var dragonCollection = [];
 var bulletCollection = [];
 var plane = new Plane();
-
 var canvas = document.getElementById('canvas');
-
-
 document.onkeydown = checkKey;
 
-StartGame();
 
 
-function StartGame(){
-    var window =   new  Canvas();
-    
- 
-    setInterval(function(){
-        if(startGame){   
-        window.loopBackground();
-        createDragon();
-        moveDragon();
-        moveBullet();
-        collide();
-       
-       
-      
-        counter++;
-        
-        }
-    
-    },15);
-    
-    
-     
-        // createDragon();
-        // LoadPlane();
-        // createBullet();
-    
-    
-    }
+
+
+//game start from here
+var game = new Game();
+game.loadGame();
+
+
+
+
+
 
 
 //Canvas object
@@ -165,7 +143,249 @@ function Bullet(){
 
 
 
-//functions 
+
+
+
+
+
+
+
+
+
+
+
+// Game Object
+
+
+function Game(){
+    var self = this;
+
+
+
+
+
+    var createDragon =function (){
+    
+
+        if(counter>(70-3*speedDy)){
+            var dragon = new Dragon();
+            dragonCollection.push(dragon);
+            dragon.createDragon();
+            counter =0;
+    
+    
+        }
+    }
+    
+    
+    var moveDragon = function (){
+        var dragonArray = dragonCollection.slice(0,dragonCollection.length);
+    
+        for (var i =0;i<dragonArray.length ;i++){
+            
+            dragonArray[i].moveDragon();
+    
+            if(dragonArray[i].y>500){
+                
+                dragonArray[i].$elem.remove();
+    
+                dragonCollection.shift();
+         
+                    
+            }
+    
+        }
+    
+    
+    
+    }
+
+    
+
+    self.createBullet =function (){
+    
+        var bul = new Bullet();
+        bul.createBullet();
+        bulletCollection.push(bul);
+        
+
+
+}
+
+
+    var moveBullet =function (){
+
+        if(bulletCollection!==undefined){
+        var bulletArray = bulletCollection.slice(0,bulletCollection.length);
+    
+        for (var i =0;i<bulletArray.length ;i++){
+            
+            
+            bulletArray[i].moveBullet();
+            if(bulletArray[i].y<0){
+            
+                bulletArray[i].$elem.remove();
+                bulletArray[i] = null;
+                bulletCollection = removeNull(bulletArray);
+                // bulletCollection.shift();
+            }
+            
+    
+            
+            
+    
+        }
+    
+    }
+        
+    }
+    
+    
+   
+    var collide =function (){
+
+
+        var dragonArray = dragonCollection;
+        var bulletArray = bulletCollection;
+    
+    
+        var pl =  plane;
+    
+        for (var i =0; i<dragonArray.length;i++){
+            if((Math.abs(pl.x-dragonArray[i].x))<(100) && (Math.abs(pl.y-dragonArray[i].y))<(100)){
+                
+                
+                dragonArray[i].$elem.remove();
+                dragonArray[i] = null;
+                dragonCollection = removeNull(dragonArray);
+                startGame = false;
+                game.gameOver();
+    
+    
+    
+    
+                
+            }
+        }
+    
+    
+    
+    
+        if((dragonArray!==undefined && bulletArray !==undefined && dragonArray.length>0 && bulletArray.length>0) ){
+    
+            for(var i =0;i<dragonArray.length;i++){
+                var dargon = dragonArray[i];
+    
+                for (var j =0;j<bulletArray.length;j++ ){
+    
+                    var bullet = bulletArray[j];
+    
+    
+                    if (Math.abs(dargon.x- bullet.x) < (100+10) && Math.abs(dargon.y - bullet.y) < (110+10)){
+    
+                        dragonArray[i].$elem.remove();
+                        dragonArray[i] = null;
+                        dragonCollection = removeNull(dragonArray);
+    
+                        bulletArray[j].$elem.remove();
+                        bulletArray[j] = null;
+                        bulletCollection = removeNull(bulletArray);
+    
+                        score += 10;
+    
+                        game.updateScore();
+                 
+            
+                         
+                    }
+    
+    
+    
+    
+    
+                }
+            }
+    
+    
+        }
+       
+    
+    }
+   
+   
+   
+    self.updateScore =function(){
+        var y = document.getElementById('score');
+        y.innerHTML = "score: "+score;
+    }
+
+
+
+
+
+
+
+    var StartGame =function (){
+        var window =   new  Canvas();
+        
+        
+     
+        setInterval(function(){
+            if(startGame){   
+            window.loopBackground();
+            createDragon();
+            moveDragon();
+            moveBullet();
+            collide();
+           
+           
+          
+            counter++;
+            
+            }
+        
+        },15);
+        
+        
+         
+            // createDragon();
+            // LoadPlane();
+            // createBullet();
+        
+        
+        }
+    
+    
+
+
+    self.loadGame = function (){
+        var x = document.createElement('div');
+        x.className = "gameover";
+        x.innerHTML = "start Game";
+    
+        canvas.appendChild(x);
+    
+        game.updateScore();
+        x.onclick  = function(){
+            x.remove();
+            StartGame();
+        }
+    
+    }
+
+    self.gameOver =function (){
+
+        var x = document.createElement('div');
+        x.className = "gameover";
+        x.innerHTML = "Game Over "+"<br> Score: "+ score ;
+    
+        canvas.appendChild(x);    
+    }
+    
+    
+
+}
+
 
 
 function checkKey(e){
@@ -174,7 +394,7 @@ function checkKey(e){
     switch(e.keyCode){
 
         case 38:
-       createBullet();
+       game.createBullet();
         break;
 
 
@@ -216,149 +436,14 @@ function checkKey(e){
 
 }
 
-function createDragon(){
-    
-
-    if(counter>(100-3*speedDy)){
-        var dragon = new Dragon();
-        dragonCollection.push(dragon);
-        dragon.createDragon();
-        counter =0;
-
-
-    }
-}
-
-
-function moveDragon(){
-var dragonArray = dragonCollection.slice(0,dragonCollection.length);
-
-    for (var i =0;i<dragonArray.length ;i++){
-        
-        dragonArray[i].moveDragon();
-
-        if(dragonArray[i].y>500){
-            
-            dragonArray[i].$elem.remove();
-
-            dragonCollection.shift();
-     
-                
-        }
-
-    }
-
-
-
-}
-
-
-function createBullet(){
-    
-        var bul = new Bullet();
-        bul.createBullet();
-        bulletCollection.push(bul);
-        
-
-
-}
-
-
-function moveBullet(){
-
-    if(bulletCollection!==undefined){
-    var bulletArray = bulletCollection.slice(0,bulletCollection.length);
-
-    for (var i =0;i<bulletArray.length ;i++){
-        
-        
-        bulletArray[i].moveBullet();
-        if(bulletArray[i].y<0){
-        
-            bulletArray[i].$elem.remove();
-            bulletArray[i] = null;
-            bulletCollection = removeNull(bulletArray);
-            // bulletCollection.shift();
-        }
-        
-
-        
-        
-
-    }
-
-}
-    
-}
-
-
-function collide(){
-
-
-    var dragonArray = dragonCollection;
-    var bulletArray = bulletCollection;
-
-
-    var pl =  plane;
-
-    for (var i =0; i<dragonArray.length;i++){
-        if((Math.abs(pl.x-dragonArray[i].x))<(100) && (Math.abs(pl.y-dragonArray[i].y))<(100)){
-            
-            
-            dragonArray[i].$elem.remove();
-            dragonArray[i] = null;
-            dragonCollection = removeNull(dragonArray);
-            startGame = false;
-            gameOver();
-
-
-
-
-            
-        }
-    }
-
-
-
-
-    if((dragonArray!==undefined && bulletArray !==undefined && dragonArray.length>0 && bulletArray.length>0) ){
-
-        for(var i =0;i<dragonArray.length;i++){
-            var dargon = dragonArray[i];
-
-            for (var j =0;j<bulletArray.length;j++ ){
-
-                var bullet = bulletArray[j];
-
-
-                if (Math.abs(dargon.x- bullet.x) < (100+10) && Math.abs(dargon.y - bullet.y) < (110+10)){
-
-                    dragonArray[i].$elem.remove();
-                    dragonArray[i] = null;
-                    dragonCollection = removeNull(dragonArray);
-
-                    bulletArray[j].$elem.remove();
-                    bulletArray[j] = null;
-                    bulletCollection = removeNull(bulletArray);
-
-                    
-             
-        
-                     
-                }
 
 
 
 
 
-            }
-        }
 
 
-    }
-   
 
-}
 
 
 function removeNull(array){
@@ -374,15 +459,3 @@ function removeNull(array){
 
 }
 
-
-
-function gameOver(){
-
-    var x = document.createElement('div');
-    x.className = "gameover";
-    x.innerHTML = "Game Over";
-
-    canvas.appendChild(x);
-
-
-}

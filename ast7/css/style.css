@@ -57,3 +57,16 @@ position: absolute;
     top: 200px;
     opacity: 0.5;
 }
+
+.score {
+    font-size: 20px;
+    color: red;
+    width: 150px;
+    height: 30px;
+    position: absolute;
+    top:0;
+    left: 0;
+    border: 2px solid blue;
+    border-radius: 20px;
+    text-align: center;
+}
