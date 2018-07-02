@@ -1,0 +1,72 @@
+#canvas{
+    width: 500px;
+    height: 600px;
+    margin:  0 auto;
+    background:lightblue;
+    background-repeat: repeat-y;
+    background: url("../images/background.jpg");
+    position: relative;
+
+
+}
+
+
+
+.dragon{
+/* float: left; */
+background:url("../images/dragon.png");
+height: 100px;
+width: 100px;
+background-repeat: no-repeat;
+display: none;
+position: absolute;
+
+}
+
+
+.plane{
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    background: url("../images/plane.png");
+    bottom: 0px;
+    left: 0px;
+}
+
+.bullet{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background: goldenrod;
+    bottom: 100px;
+    left: 50px;
+
+}
+
+.gameover{
+    font-size: 40px;
+    font-weight: bold;
+    color: red;
+    background: black;
+    display: block;
+    text-align: center;
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    top: 200px;
+    opacity: 0.5;
+}
+
+.score {
+    font-size: 20px;
+    color: red;
+    width: 150px;
+    height: 30px;
+    position: absolute;
+    top:0;
+    left: 0;
+    border: 2px solid blue;
+    border-radius: 20px;
+    text-align: center;
+}
