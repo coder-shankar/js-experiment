@@ -27,9 +27,11 @@ self.backgroundY = 0;
 self.backgroundDY = speedDy;
 
 
+
 self.loopBackground = function(){
+
     self.backgroundY += self.backgroundDY;
-canvas.style.backgroundPositionY = self.backgroundY+"px";
+    canvas.style.backgroundPositionY = self.backgroundY+"px";
 
 
     };
@@ -44,6 +46,7 @@ var self = this;
 
 self.x = 0;
 self.y = 0;
+self.health = 2;
 
 self.randomWidth = [0,160,320];
 
@@ -128,7 +131,7 @@ function Game(){
     var createDragon =function (){
     
 
-        if(dragoncounter>60){
+        if(dragoncounter>100){
             var dragon = new Dragon();
             dragonCollection.push(dragon);
             dragon.createDragon();
@@ -225,10 +228,6 @@ function Game(){
                 dragonCollection = removeNull(dragonArray);
                 startGame = false;
                 game.gameOver();
-    
-    
-    
-    
                 
             }
         }
@@ -246,14 +245,24 @@ function Game(){
                     if(bullet!==null){
     
                     if (Math.abs(dargon.x- bullet.x) < (100+10) && Math.abs(dargon.y - bullet.y) < (110+10)){
-    
+                        
+                       
+                        if(dragonArray[i].health<0){
+
+                        
                         dragonArray[i].$elem.remove();
                         dragonArray[i] = null;
                         dragonCollection = removeNull(dragonArray);
+
+                        } 
+                        else{
+                            dragonArray[i].health--;
+                        }
     
                         bulletArray[j].$elem.remove();
                         bulletArray[j] = null;
                         bulletCollection = removeNull(bulletArray);
+                        
     
                         score += 10;
     
@@ -320,9 +329,6 @@ function Game(){
     
     
 
-
-
-
     self.gameOver =function (){
 
         var x = document.createElement('div');
@@ -342,8 +348,6 @@ function Game(){
 
             game.resetGame();
   
-
-
 
         });
         x.appendChild(resetButton);
