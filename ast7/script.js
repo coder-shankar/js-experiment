@@ -296,9 +296,6 @@ function Game(){
 
 
 
-
-
-
     self.StartGame =function (){
 
     var x =setInterval(function(){
