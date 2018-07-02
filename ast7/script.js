@@ -16,23 +16,6 @@ loadGame();
 
 
 
-function  loadGame(){
-     game = new Game();
-    var x = document.createElement('button');
-    x.className = "startgame";
-    x.innerHTML = "start Game";
-
-    canvas.appendChild(x);
-
-    game.updateScore();
-    x.onclick  = function(){
-        x.remove();
-        game.StartGame();
-    }
-
-}
-
-
 
 
 //Canvas object
@@ -321,6 +304,10 @@ function Game(){
 
             }
 
+            else{
+                clearInterval(x);
+            }
+
 
 
 
@@ -354,7 +341,7 @@ function Game(){
             resetButton.remove();
 
             game.resetGame();
-            loadGame();
+  
 
 
 
@@ -366,8 +353,29 @@ function Game(){
     self. resetGame = function () {
         bulletcounter =0;
         score =0;
-        Canvas.backgroundY =0;
+        self.window.backgroundY =0;
+        self.window.loopBackground();
         startGame = true;
+
+
+        for (var i =0;i<bulletCollection.length ;i++){
+            
+                bulletCollection[i].$elem.remove();
+                bulletCollection[i] = null;
+                bulletCollection = removeNull(bulletCollection); 
+
+        }
+
+
+        for (var i =0;i<dragonCollection.length ;i++){
+            dragonCollection[i].$elem.remove();
+            dragonCollection[i] = null;
+            dragonCollection = removeNull(dragonCollection);
+
+    }
+loadGame();
+
+
 
     }
 
@@ -426,6 +434,24 @@ function checkKey(e){
 }
 
 
+function  loadGame(){
+    game = new Game();
+   var x = document.createElement('button');
+   x.className = "startgame";
+   x.innerHTML = "start Game";
+
+   canvas.appendChild(x);
+
+   game.updateScore();
+   x.onclick  = function(){
+       x.remove();
+       game.StartGame();
+   }
+
+}
+
+
+
 
 function removeNull(array){
     var temp = []
@@ -439,4 +465,6 @@ function removeNull(array){
     return temp;
 
 }
+
+
 
