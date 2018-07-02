@@ -24,6 +24,7 @@ function Container(props){
     self.$elem.style.height = self.height + "px";
     self.$elem.style.width = self.width + "px";
     self.$elem.style.backgroundColor = self.backgroundColor;
+    self.$elem.style.borderRadius = "10px";
     self.$elem.style.border ="5px solid grey";
     self.$elem.position ="relative";
     self.$parent.appendChild(self.$elem);
@@ -56,6 +57,17 @@ function Container(props){
                         point1.dy = point1.dy*direction[Math.floor(Math.random()*2)];
     
                         point2.dy = point2.dy*direction[Math.floor(Math.random()*2)];
+
+
+
+
+                    // point1.dx = point1.dx*-1;
+    
+                    // point2.dx = point2.dx*-1;
+   
+                    // point1.dy = point1.dy*-1;
+   
+                    // point2.dy = point2.dy*-1;
           }
         }
       }
@@ -69,7 +81,7 @@ self.init = function(noOfBall){
     self.plot();
      for(var i =0;i<noOfBall;i++){
     
-    var props1 = {x:Math.floor(Math.random()*480),y:Math.floor(Math.random()*480),dx:direction[Math.floor(Math.random()*2)],dy:direction[Math.floor(Math.random()*2)],speed:1,height:20,width:20,parent:board.$elem};
+    var props1 = {x:Math.floor(Math.random()*480),y:Math.floor(Math.random()*480),dx:direction[Math.floor(Math.random()*2)],dy:direction[Math.floor(Math.random()*2)],speed:0.5,height:20,width:20,parent:board.$elem};
     var ball = new Box(props1);
     ball.plot();
     self.addBox(ball);
@@ -112,6 +124,7 @@ function Box(props){
     self.height = props.height;
     self.width = props.width;
     self.$elem = document.createElement("div");
+    self.$elem.style.borderRadius = "10px";
 
     self.parent = props.parent;
     self.$elem.onclick = function(){
@@ -216,12 +229,7 @@ function Box(props){
 var props = {$parent:$body,height:500,width:500,backgroundColor:"black",};
 
 var board = new Container (props);
-board.init(noOfBall=10);
+board.init(noOfBall=15);
 
 
  
-
-var props = {$parent:$body,height:500,width:500,backgroundColor:"black",};
-
-var board = new Container (props);
-board.init(noOfBall=10);
