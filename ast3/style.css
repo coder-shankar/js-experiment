@@ -1,0 +1,40 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+li{
+   
+    display: block;
+    width: 400px;
+    height: 400px;
+    float: left;
+}
+
+.previous{
+    position: absolute;
+    top: 200px;
+    left: 0px;
+}
+.next{
+    position: absolute;
+    top:200px;
+    left: 370px;
+}
+
+ul{
+    height: 400px;
+    width: 10000px;
+}
+
+.slider{
+    height: 400px;
+    width: 400px;
+    overflow: hidden;
+    margin:0 auto;
+    position: relative;
+}
+
+.wrapper{
+    margin: 0 auto;
+}
