@@ -23,7 +23,6 @@ position: absolute;
 
 }
 
-
 .plane{
     position: absolute;
     height: 100px;
@@ -41,6 +40,37 @@ position: absolute;
     background: goldenrod;
     bottom: 100px;
     left: 50px;
+
+}
+
+.reset-button{
+    display: block;
+    background: white;
+    color: green;
+    font-size: 20px;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+
+.startgame  {
+
+    font-size: 20px;
+    font-weight: bold;
+    color: red;
+    background: black;
+    display: block;
+    text-align: center;
+    height: 50px;
+    width: 150px;
+    line-height: 2.5;
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    border-radius: 10px;
+    border:1px solid black;
+    opacity: 0.5;
 
 }
 
