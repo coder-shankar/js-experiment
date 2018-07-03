@@ -1,0 +1,61 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+
+#canvas{
+    width: 800px;
+    height: 500px;
+    background: url(../images/background.png) repeat-x;
+    position: relative;
+}
+
+.bird{
+    background: url(../images/bird.png) no-repeat;
+    height: 24px;
+    width: 34px;
+    position: absolute;
+    z-index: 10;
+    
+}
+
+.pipedown{
+    position: absolute;
+    background: url(../images/pipe.png) no-repeat;
+    width: 52px;
+   
+  
+    
+}
+
+.pipeup{
+    position: absolute;
+    background: url(../images/pipe.png) no-repeat;
+    transform: rotate(180deg);
+    width: 52px;
+    
+}
+
+
+.base{
+    background: url(../images/base.png);
+
+
+}
+
+.gameOver{
+    position: absolute;
+    z-index: 20px;
+    text-align: center;
+    height: 500px;
+    width: 800px;
+    color: lightseagreen;
+    font-size: 40px;
+    left: 0px;
+    top: 0px;
+    background:lightsteelblue;
+    opacity: 0.7;
+    padding-top: 100px;
+
+}
