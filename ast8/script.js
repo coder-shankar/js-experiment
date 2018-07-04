@@ -123,6 +123,7 @@ class PipePair {
   destoryPipe() {
     this.pipeUp.remove();
     this.pipeDown.remove();
+    scoreCheck = true;
     pipeCollection.shift();
   }
 
@@ -165,12 +166,17 @@ class Game {
 
   loadGame() {
     this.destoryStartScreen();
+
     let c = {
       width: 800,
       height: 500
     };
     this.canvas = new Canvas(c);
     this.canvas.createCanvas();
+    this.scoreBoard = document.createElement("div");
+
+    this.className = "score-board";
+    this.canvas.$elem.appendChild(this.scoreBoard);
 
     let b = {
       x: 50,
@@ -190,6 +196,7 @@ class Game {
       }
       this.render();
       this.collide();
+      this.scoreBoard.innerHTML = score;
       pipeCounter++;
     }, 10);
   }
@@ -252,19 +259,45 @@ class Game {
         this.gameOver();
       } else {
         if (bird.x + bird.width > pipeU.x + 52) {
-          score++;
+          if (scoreCheck) {
+            score++;
+            scoreCheck = false;
+          }
         }
       }
     }
   }
   gameOver() {
-    let back = document.createElement("div");
-    back.className = "gameover";
-    back.innerHTML = "game Over <br> Score :" + score;
-    this.canvas.$elem.appendChild(back);
+    this.back = document.createElement("div");
+    this.back.className = "gameover";
+    this.back.innerHTML = "game Over <br> Score :" + score;
+    this.canvas.$elem.appendChild(this.back);
   }
 
-  restartGame() {}
+  restartGame() {
+    console.log(this.x);
+    clearInterval(this.x);
+    game.startGame();
+
+
+    pipeCounter = 300;
+    score = 0;
+    keyPressed = false;
+    scoreCheck = false;
+
+    this.scoreBoard.remove();
+    if (this.back !== undefined) {
+      this.back.remove();
+    }
+
+    for (var i = 0; i < pipeCollection.length; i++) {
+      pipeCollection[i].pipeUp.$elem.remove();
+      pipeCollection[i].pipeDown.$elem.remove();
+    }
+    pipeCollection = [];
+
+
+  }
 }
 
 let game = new Game();
@@ -273,7 +306,10 @@ let pipeCounter = 300;
 let pipeCollection = [];
 let score = 0;
 let keyPressed = false;
+let scoreCheck = true;
 
+
+// key event
 document.onkeydown = e => {
   e = e || window.event;
 
@@ -283,8 +319,13 @@ document.onkeydown = e => {
       game.bird.moveUp();
     }
   }
+
+  if (e.keyCode === 27) {
+    game.restartGame();
+  }
 };
 
+// random number generator
 const random = (start, end) => {
   return Math.floor(Math.random() * (end - start) + 1 + start);
 };
