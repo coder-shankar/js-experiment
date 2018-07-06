@@ -8,9 +8,10 @@ class Game {
     }
 
     start() {
-        this.gameWorld.init();
+
         this.gameWorld.update();
         this.gameWorld.draw();
+        this.gameWorld.reset();
         requestAnimationFrame(this.start);
 
     }
@@ -19,4 +20,5 @@ class Game {
 }
 
 let game = new Game();
+game.gameWorld.init();
 game.start();
