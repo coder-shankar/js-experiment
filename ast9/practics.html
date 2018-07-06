@@ -1,0 +1,23 @@
+<html>
+
+<head>
+<title>Html 5</title>
+</head>
+
+<body>
+    <canvas id="canvas"> </canvas>
+
+    <script>
+        var canvas = null;
+        var context = null;
+        setup = function () {
+            canvas = document.getElementById("canvas");
+            context = canvas.getContext('2d');
+            canvas.width = 1200;
+            canvas.height = 720;
+        };
+        setup();
+    </script>
+</body>
+
+</html>
