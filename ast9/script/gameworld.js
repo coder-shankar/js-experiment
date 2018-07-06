@@ -141,11 +141,11 @@ class GameWorld {
 
 
 
-        // for (let i = 0; i < this.ballCollection.length; i++) {
-        //     this.ballCollection[i].update();
-        // }
+        for (let i = 0; i < this.ballCollection.length; i++) {
+            this.ballCollection[i].update();
+        }
 
-        // this.ballCollection[0].update();
+        this.ballCollection[0].update();
         this.collision();
         this.cueBall.update();
 
@@ -200,51 +200,57 @@ class GameWorld {
 
 
             if (dist < ballWidth) {
+                let x = ball1.position.x - ball2.position.x;
+                let y = ball1.position.y - ball2.position.y;
+
+                let len = Math.sqrt(x * x + y * y);
+                let un = {
+                    x: x / len,
+                    y: y / len
+                };
 
 
+                let ut = {
+                    x: -un.y,
+                    y: un.x
+                };
+                let v1n = un.x * ball1.velocity.dx + un.y * ball1.velocity.dy;
+                let v2n = un.x * ball2.velocity.dx + un.y * ball2.velocity.dy;
+                let v1t = ut.x * ball1.velocity.dx + ut.y * ball1.velocity.dy;
+                let v2t = ut.x * ball2.velocity.dx + ut.y * ball2.velocity.dy;
 
-                let power = (Math.abs(ball1.velocity.dx) + Math.abs(ball1.velocity.dy)) +
-                    (Math.abs(ball2.velocity.dx) + Math.abs(ball2.velocity.dy));
+                let v1nTag = v2n;
+                let v2nTag = v1n;
+
+                v1nTag = {
+                    x: un.x * v1nTag,
+                    y: un.y * v1nTag
+                };
+                let v1tTag = {
+                    x: ut.x * v1t,
+                    y: ut.y * v1t
+                };
 
 
+                v2nTag = {
+                    x: un.x * v2nTag,
+                    y: un.y * v2nTag
+                };
+                let v2tTag = {
+                    x: ut.x * v2t,
+                    y: ut.y * v2t
+                };
 
 
+                ball1.velocity.dx = v1nTag.x + v1tTag.x;
+                ball1.velocity.dy = v1nTag.y + v1tTag.y;
 
-                let opposite = ball1.position.y - ball2.position.y;
-                let adjacent = ball1.position.x - ball2.position.x;
-                let rotation = Math.atan2(opposite, adjacent);
 
+                ball2.velocity.dx = v2nTag.x + v2tTag.x;
+                ball2.velocity.dy = v2nTag.y + v2tTag.y;
 
                 ball1.moving = true;
                 ball2.moving = true;
-                // console.log(Math.cos(rotation + Math.PI));
-
-                ball1.velocity.dx += Math.cos(rotation + Math.PI) * 10;
-                ball1.velocity.dy += Math.sin(rotation + Math.PI) * 10;
-
-
-
-
-                ball2.velocity.dx += Math.cos(rotation + Math.PI) * 10;
-                ball2.velocity.dy += Math.sin(rotation) * 10;
-
-
-                // let theta1 = ball1.angle;
-                // let theta2 = ball2.angle;
-                // let v1 = Math.sqrt(ball1.velocity.x * ball1.velocity.x + ball1.velocity.y * ball1.velocity.y);
-                // let v2 = Math.sqrt(ball2.velocity.x * ball2.velocity.x + ball2.velocity.y * ball2.velocity.y);
-
-
-                // ball1.velocity.dx += v2 * Math.cos(theta2 - phi) * Math.cos(phi) + v1 * Math.sin(theta1 - phi) * Math.cos(phi + Math.PI / 2);
-                // ball1.velocity.dy += v2 * Math.cos(theta2 - phi) * Math.sin(phi) + v1 * Math.sin(theta1 - phi) * Math.sin(phi + Math.PI / 2);
-                // ball2.velocity.dx += v1 * Math.cos(theta1 - phi) * Math.cos(phi) + v2 * Math.sin(theta2 - phi) * Math.cos(phi + Math.PI / 2);
-                // ball2.velocity.dy += v1 * Math.cos(theta1 - phi) * Math.sin(phi) + v2 * Math.sin(theta2 - phi) * Math.sin(phi + Math.PI / 2);
-
-
-
-
-
-
 
 
 
@@ -256,14 +262,6 @@ class GameWorld {
 
     }
 
-
-    checkWallCollision() {
-
-
-
-
-
-    }
 
 
 

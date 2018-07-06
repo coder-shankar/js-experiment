@@ -9,10 +9,9 @@ class Ball {
         this.moving = false;
         this.visible = true;
         this.inHole = false;
-        this.angle = 0;
         this.velocity = {
-            dx: 0,
-            dy: 0
+            dx: 1,
+            dy: 1
         };
 
     }
@@ -23,7 +22,7 @@ class Ball {
         this.position.y += this.velocity.dy * 0.01;
         this.velocity.dx = this.velocity.dx * 0.98;
         this.velocity.dy = this.velocity.dy * 0.98;
-        this.angle = Math.atan2(this.velocity.dy, this.velocity.dx);
+
 
         let mag = Math.sqrt(this.velocity.dx * this.velocity.dx + this.velocity.dy * this.velocity.dy);
 

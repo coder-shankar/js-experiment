@@ -2,7 +2,8 @@ class Rule {
 
     constructor(props) {
 
-        // border width and height came here
+
+
     }
 
 
@@ -25,6 +26,9 @@ class Rule {
         return (pos.y + origin.y) > this.bottomBorder;
 
     }
+
+
+
 
 
 
