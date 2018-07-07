@@ -12,6 +12,17 @@ class Game {
   }
 }
 
+
+
+var $start = document.getElementById('start-btn');
+var $startGame = document.getElementById('start-game');
+var $canvas = document.getElementById('canvas');
 let game = new Game();
-game.gameWorld.init();
-game.start();
+
+$start.onclick = () => {
+  $startGame.style.display = "none";
+  $canvas.style.display = "block";
+
+  game.gameWorld.init();
+  game.start();
+}

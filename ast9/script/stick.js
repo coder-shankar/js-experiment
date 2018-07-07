@@ -10,7 +10,7 @@ class Stick {
             x: 730,
             y: 10
         }
-        this.power = 0;
+        this.power = 50;
         this.stickVisibility = true;
     }
 
@@ -63,7 +63,7 @@ class Stick {
 
     increasePower() {
 
-        if (this.power > 1000)
+        if (this.power > 2000)
             return;
 
         this.power += 100;
@@ -83,6 +83,7 @@ class Stick {
         let b = pos.y;
         this.position.x = a;
         this.position.y = b;
+        game.gameWorld.rule.swithTurn();
         this.shoot = false;
 
 

@@ -2,6 +2,9 @@ class Board {
     constructor() {
         this.$canvas = document.getElementById("canvas");
         this.ctx = this.$canvas.getContext("2d");
+
+
+
     }
 
     clearBoard() {
@@ -9,6 +12,7 @@ class Board {
     }
 
     drawImage(image, position, center, rotation = 0) {
+
         if (!center) {
             center = {
                 x: 0,
@@ -27,5 +31,12 @@ class Board {
         this.ctx.rotate(rotation);
         this.ctx.drawImage(image, -center.x, -center.y);
         this.ctx.restore();
+    }
+
+    drawText(text, position) {
+        this.ctx.font = "20px Comic Sans MS";
+        this.ctx.fillStyle = "white";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText(text, position.x, position.y);
     }
 }

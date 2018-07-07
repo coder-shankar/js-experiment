@@ -1,6 +1,6 @@
 const Ball_CENTER = {
-    x: 25,
-    y: 25
+    x: 20,
+    y: 20
 };
 
 const FRICTION = 0.98;
@@ -21,11 +21,11 @@ class Ball {
 
     update() {
 
-        this.position.x += this.velocity.dx * 0.02;
-        this.position.y += this.velocity.dy * 0.02;
+        this.position.x += this.velocity.dx * 0.015;
+        this.position.y += this.velocity.dy * 0.015;
         this.velocity.dx = this.velocity.dx * FRICTION;
         this.velocity.dy = this.velocity.dy * FRICTION;
-
+        this.outOfBorderCheck();
 
 
 
@@ -33,7 +33,7 @@ class Ball {
 
 
 
-        if (mag < 5) {
+        if (mag < 10) {
 
             this.moving = false;
             this.velocity.dx = 0;
@@ -46,6 +46,8 @@ class Ball {
 
             this.collisionWithBorder();
         }
+
+        game.gameWorld.rule.isInHole(this);
 
 
 
@@ -96,32 +98,55 @@ class Ball {
         game.gameWorld.stick.shoot = false;
     }
 
+    outOfBorderCheck() {
+        let border = game.gameWorld.border
+        if (this.position.x < border.left) {
+            this.position.x = border.left;
+
+        }
+
+        if (this.position.y < border.top) {
+            this.position.y = border.top;
+        }
+
+        if (this.position.x > border.right) {
+            this.position.x = border.right;
+        }
+        if (this.position.y > border.bottom) {
+            this.position.y = border.bottom;
+        }
+    }
 
     collisionWithBorder() {
-        let border = game.gameWorld.border;
+        if (this.moving) {
+            let border = game.gameWorld.border;
 
-        if (this.position.y < border.top + 0.5 * ballWidth) {
-            this.velocity.dy *= -1;
-            this.collided = true;
+            if (this.position.y < border.top + 0.5 * ballWidth) {
+                this.velocity.dy *= -0.98;
+                this.velocity.dx *= 0.98;
+                this.collided = true;
+            }
+
+            if (this.position.y + ballWidth * 0.5 > border.bottom) {
+                this.velocity.dy *= -0.98;
+                this.velocity.dx *= 0.98;
+                this.collided = true;
+            }
+
+            if (this.position.x + ballWidth * 0.5 > border.right) {
+                this.velocity.dx *= -0.98;
+                this.velocity.dy *= 0.98;
+                this.collided = true;
+            }
+
+            if (this.position.x < border.left + ballWidth * 0.5) {
+                this.velocity.dx *= -0.98;
+                this.velocity.dy *= -0.98;
+                this.collided = true;
+            }
+
+
         }
-
-        if (this.position.y + ballWidth * 0.5 > border.bottom) {
-            this.velocity.dy *= -1;
-            this.collided = true;
-        }
-
-        if (this.position.x + ballWidth * 0.5 > border.right) {
-            this.velocity.dx *= -1;
-            this.collided = true;
-        }
-
-        if (this.position.x < border.left + ballWidth * 0.5) {
-            this.velocity.dx *= -1;
-            this.collided = true;
-        }
-
-
-
 
 
     }

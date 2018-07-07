@@ -1,4 +1,48 @@
 body{
-    background: black;
+    
 }
 
+
+.container{
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    background: grey;
+    height: 100%;
+  
+}
+
+.start-game{
+    position: absolute;
+    display: block;
+    background:url(../images/start-background.jpg);
+
+    height: 700px;
+    width: 100%;
+    background-clip: border-box;
+
+}
+
+canvas{
+    display: none;
+    margin: 0 auto;
+}
+.info{
+    color: white;
+    top:30%;
+    left: 10%;
+    font-size: 30px;
+    position: absolute;;
+}
+.start-btn{
+    position: absolute;
+    left: 40%;
+    top: 50%;
+    height: 100px;
+    width: 200px;
+    border-radius: 10px;
+    border: 1px solid black;
+    background: black;
+    color: greenyellow;
+    font-size: 40px;
+}
