@@ -16,6 +16,13 @@ class GameWorld {
         });
         this.mouse = new Mouse(this.canvas.$canvas);
         this.key = new Key(this.stick);
+        this.border = {
+            left: 52,
+            right: this.canvasWidth - 52,
+            top: 52,
+            bottom: this.canvasHeight - 52
+
+        }
 
 
 
@@ -143,10 +150,19 @@ class GameWorld {
 
         for (let i = 0; i < this.ballCollection.length; i++) {
             this.ballCollection[i].update();
+
+
         }
 
-        this.ballCollection[0].update();
         this.collision();
+
+        if (!this.cueBall.moving && this.stick.shoot) {
+
+
+            this.stick.repositionStick(this.cueBall.position);
+            console.log(this.cueBall.moving);
+
+        }
         this.cueBall.update();
 
 
@@ -204,6 +220,21 @@ class GameWorld {
                 let y = ball1.position.y - ball2.position.y;
 
                 let len = Math.sqrt(x * x + y * y);
+                let a = (ballWidth - len) / len;
+
+                // minimum translation distance 
+                let mtd = {
+                    x: x * a,
+                    y: y * a
+                };
+                ball1.position.x += mtd.x * 0.5;
+                ball1.position.y += mtd.y * 0.5;
+                ball2.position.x -= mtd.x * 0.5;
+                ball2.position.y -= mtd.y * 0.5;
+
+
+
+
                 let un = {
                     x: x / len,
                     y: y / len

@@ -5,6 +5,7 @@ class Stick {
         this.width = 700;
         this.height = 20;
         this.rotation = 0;
+        this.shoot = false;
         this.center = {
             x: 730,
             y: 10
@@ -19,17 +20,14 @@ class Stick {
 
         if (game.gameWorld.mouse.mouseIsDown) {
 
-            game.gameWorld.cueBall.shoot(this.power, this.rotation);
+
+            game.gameWorld.cueBall.shooting(this.power, this.rotation);
+            this.shoot = true;
 
         }
 
 
 
-        // if (!game.gameWorld.cueBall.moving && this.stickVisibility) {
-
-        //     this.position = game.gameWorld.cueBall.position;
-
-        // }
 
 
     }
@@ -64,6 +62,10 @@ class Stick {
     }
 
     increasePower() {
+
+        if (this.power > 1000)
+            return;
+
         this.power += 100;
         this.center.x += 5;
 
@@ -74,6 +76,17 @@ class Stick {
             this.power -= 100;
             this.center.x -= 5;
         }
+    }
+
+    repositionStick(pos) {
+        let a = pos.x;
+        let b = pos.y;
+        this.position.x = a;
+        this.position.y = b;
+        this.shoot = false;
+
+
+
     }
 
 
