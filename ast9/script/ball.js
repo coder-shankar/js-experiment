@@ -13,19 +13,19 @@ class Ball {
         this.inHole = false;
 
         this.velocity = {
-            dx: 1,
-            dy: 1
+            dx: 0,
+            dy: 0
         };
-
     }
 
     update() {
+
 
         this.position.x += this.velocity.dx * 0.015;
         this.position.y += this.velocity.dy * 0.015;
         this.velocity.dx = this.velocity.dx * FRICTION;
         this.velocity.dy = this.velocity.dy * FRICTION;
-        this.outOfBorderCheck();
+
 
 
 
@@ -40,14 +40,17 @@ class Ball {
             this.velocity.dy = 0;
 
 
+
+
         }
 
         if (this.moving) {
 
             this.collisionWithBorder();
+            game.gameWorld.rule.isInHole(this);
         }
 
-        game.gameWorld.rule.isInHole(this);
+
 
 
 
@@ -55,6 +58,8 @@ class Ball {
     }
 
     draw() {
+
+
 
         if (this.color === 'red') {
             game.gameWorld.canvas.drawImage(sprites.rBall, {
@@ -98,50 +103,40 @@ class Ball {
         game.gameWorld.stick.shoot = false;
     }
 
-    outOfBorderCheck() {
-        let border = game.gameWorld.border
-        if (this.position.x < border.left) {
-            this.position.x = border.left;
 
-        }
-
-        if (this.position.y < border.top) {
-            this.position.y = border.top;
-        }
-
-        if (this.position.x > border.right) {
-            this.position.x = border.right;
-        }
-        if (this.position.y > border.bottom) {
-            this.position.y = border.bottom;
-        }
-    }
 
     collisionWithBorder() {
         if (this.moving) {
             let border = game.gameWorld.border;
 
             if (this.position.y < border.top + 0.5 * ballWidth) {
+                this.position.y = border.top + 0.5 * ballWidth;
                 this.velocity.dy *= -0.98;
-                this.velocity.dx *= 0.98;
+
                 this.collided = true;
             }
 
             if (this.position.y + ballWidth * 0.5 > border.bottom) {
+                this.position.y = border.bottom - 0.5 * ballWidth;
+
                 this.velocity.dy *= -0.98;
-                this.velocity.dx *= 0.98;
+
                 this.collided = true;
             }
 
             if (this.position.x + ballWidth * 0.5 > border.right) {
+                this.position.x = border.right - 0.5 * ballWidth;
+
                 this.velocity.dx *= -0.98;
-                this.velocity.dy *= 0.98;
+
                 this.collided = true;
             }
 
             if (this.position.x < border.left + ballWidth * 0.5) {
+                this.position.x = border.left + ballWidth * 0.5;
+
                 this.velocity.dx *= -0.98;
-                this.velocity.dy *= -0.98;
+
                 this.collided = true;
             }
 

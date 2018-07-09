@@ -1,5 +1,6 @@
 let sprites = {}
 let ballWidth = 35;
+let win = -1;
 
 function loadImages(fileName) {
     let spriteImage = new Image();

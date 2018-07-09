@@ -116,6 +116,7 @@ class GameWorld {
 
     ];
 
+    this.ballArray = this.ballCollection;
 
 
     this.canvas.$canvas.onmousedown = (e) => {
@@ -164,6 +165,7 @@ class GameWorld {
 
     }
     this.cueBall.update();
+    this.ballCollection = removeNull(this.ballArray);
 
 
 

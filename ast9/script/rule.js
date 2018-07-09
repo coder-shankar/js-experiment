@@ -54,7 +54,7 @@ class Rule {
 
   drawScore() {
 
-    this.canvas.drawText("Player: " + (this.turn + 1) + "      Ball Left:" + (8 - this.players[this.turn].score) + "  " + this.players[this.turn].color, {
+    this.canvas.drawText("Player: " + (this.turn + 1) + "      Ball Plotted: " + (this.players[this.turn].score) + "   Color: " + this.players[this.turn].color, {
       x: 250,
       y: 30
     });
@@ -102,38 +102,62 @@ class Rule {
       distBC < holeRadius + 3 ||
       distBR < holeRadius + 3
     ) {
-      //   ball.position.x = -10;
-      //   ball.position.y = -10;
-
+      ball.velocity.dy = 0;
+      ball.velocity.dx = 0;
       let index = game.gameWorld.ballCollection.indexOf(ball);
+      game.gameWorld.ballArray[index] = null;
+
+
       if (index > -1) {
+
         if (this.firstBall < 1) {
 
+          if (ball.color === 'black') {
+            this.players[this.turn].score += 1;
 
 
-          if (ball.color = 'black') {
-            //game over
-
-          }
-
-          if (ball.color = 'red') {
+          } else if (ball.color === 'red') {
             this.players[this.turn].color = 'red';
             this.players[(this.turn + 1) % 2].color = 'yellow';
           } else {
-            this.players[this.turn].color = 'red';
-            this.players[(this.turn + 1) % 2].color = 'yellow';
+            this.players[this.turn].color = 'yellow';
+            this.players[(this.turn + 1) % 2].color = 'red';
 
           }
+
+          this.players[this.turn].score = 1;
           this.firstBall++;
 
+
+        } else {
+          if (this.players[this.turn].color === ball.color) {
+            this.players[this.turn].score += 1;
+
+          } else {
+            this.players[(this.turn + 1) % 2].score += 1;
+          }
         }
 
 
-        ball.position.x = -9000;
-        ball.position.y = -9999;
+
 
       } else {
-        alert("falult");
+
+
+        ball.position.x = 350;
+        ball.position.y = 300;
+        ball.velocity.dy = 0;
+        ball.velocity.dx = 0;
+        win = ((this.turn + 1) % 2 + 1);
+        game.gameOver = true;
+
+
+      }
+
+
+      if (this.players[this.turn].score === 8) {
+        win = this.turn;
+        game.gameWorld.gameOver = true;
       }
 
     }

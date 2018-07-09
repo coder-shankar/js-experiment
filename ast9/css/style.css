@@ -7,7 +7,7 @@ body{
     position: relative;
     margin: 0 auto;
     width: 100%;
-    background: grey;
+    background: black;
     height: 100%;
   
 }
@@ -16,10 +16,12 @@ body{
     position: absolute;
     display: block;
     background:url(../images/start-background.jpg);
+    background-position: center;
 
     height: 700px;
     width: 100%;
     background-clip: border-box;
+    
 
 }
 
@@ -45,4 +47,19 @@ canvas{
     background: black;
     color: greenyellow;
     font-size: 40px;
+}
+
+.gameOver{
+    position: absolute;
+    top: 100px;
+    left: 400px;
+    height: 500px;
+    width: 400px;
+    background:black;
+    display: none;
+    z-index: 10;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    padding-top: 50px;
 }
