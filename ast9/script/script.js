@@ -1,5 +1,6 @@
 let sprites = {}
-let ballWidth = 30;
+let ballWidth = 35;
+let win = -1;
 
 function loadImages(fileName) {
     let spriteImage = new Image();
@@ -21,7 +22,7 @@ sprites.wBall = loadImages('white-ball.png');
 
 //utils
 
-function calculateDistance(point1, point2) {
+calculateDistance = (point1, point2) => {
 
     let a = point1.x - point2.x;
     let b = point1.y - point2.y;
@@ -29,4 +30,17 @@ function calculateDistance(point1, point2) {
     return Math.sqrt(a * a + b * b);
 
 
+}
+
+removeNull = (ballCollection) => {
+    temp = [];
+
+    ballCollection.forEach(element => {
+        if (element !== null) {
+            temp.push(element);
+        }
+
+    });
+
+    return temp;
 }
