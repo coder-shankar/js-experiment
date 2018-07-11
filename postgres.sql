@@ -310,12 +310,12 @@ WHERE  loans.issued_date BETWEEN '2018-01-06' AND    '2018-03-03';
 
 -- 10. User wants to return a loaned book. Write an update query to make this happen.UPDATE loans
 SET    return_date = CURRENT_DATE 
-WHERE  user_id = 3; 
+WHERE  user_id = 3 and book_id =4; 
 
 -- 11. Another user wants to return multiple loaned book. Write an update query to make this happen.UPDATE loans
 SET    return_date = CURRENT_DATE 
 WHERE  return_date IS NULL 
-AND    user_id = 4; 
+AND    user_id = 4 ; 
 
 -- 12. Check what happens when you want to delete an author; What needs to be done ?DELETE 
 FROM   authors 
