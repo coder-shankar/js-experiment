@@ -229,10 +229,10 @@ class GameWorld {
           x: x * a,
           y: y * a
         };
-        ball1.position.x += mtd.x * 0.5;
-        ball1.position.y += mtd.y * 0.5;
-        ball2.position.x -= mtd.x * 0.5;
-        ball2.position.y -= mtd.y * 0.5;
+        ball1.position.x += mtd.x * 0.15;
+        ball1.position.y += mtd.y * 0.15;
+        ball2.position.x -= mtd.x * 0.15;
+        ball2.position.y -= mtd.y * 0.15;
 
 
 
